@@ -3,6 +3,10 @@ const API = require("./api");
 
 const app = express();
 
+// parse json 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true} ));
+
 // load secrets from .env file
 require("dotenv").config();
 
