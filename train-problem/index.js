@@ -1,4 +1,3 @@
-// dkrishna@affordmed.com
 const express = require("express");
 const API = require("./api");
 
@@ -36,18 +35,20 @@ function departureComparator(t1, t2) {
     // departure time t1
     let departure1 = new Date();
     departure1.setHours(t1.departureTime.Hours);
-    departure1.setMinutes(t1.departureTime.Minutes + t1.delayedBy);
+    departure1.setMinutes(t1.departureTime.Minutes);
     departure1.setSeconds(t1.departureTime.Seconds);
 
     // departure time t2
     let departure2 = new Date();
     departure2.setHours(t2.departureTime.Hours);
-    departure2.setMinutes(t2.departureTime.Minutes + t2.delayedBy);
+    departure2.setMinutes(t2.departureTime.Minutes);
     departure2.setSeconds(t2.departureTime.Seconds);
 
-    if (departure1 > departure2) {
-        return 1;
-    }
+    // considering delay 
+    let delayed1 = new Date(departure1.getTime() + t1.delayedBy * 60 * 1000);
+    let delayed2 = new Date(departure2.getTime() + t2.delayedBy * 60 * 1000);
+
+    if (delayed1 > delayed2) return 1;
     return -1;
 }
 
